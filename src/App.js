@@ -9,7 +9,7 @@ const StockManagementSystem = () => {
       name: "Laptop",
       quantity: 10,
       price: 50000,
-      category: "Electronics",
+      category: "Electronic",
     },
     {
       id: "STK002",
