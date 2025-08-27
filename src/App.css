@@ -446,7 +446,13 @@ body {
   font-weight: bold;
   font-size: 1rem;
 }
-
+.customer-name {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 1rem;
+}
 .remove-btn {
   background: linear-gradient(135deg, #e74c3c, #c0392b);
   color: white;
@@ -862,4 +868,59 @@ button:focus {
   min-width: 20px;
   text-align: center;
   font-weight: bold;
+}
+
+/* Sales Report Section */
+.sales-report-section {
+  margin-top: 20px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sales-report-section h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+/* Sales Table */
+.sales-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.sales-table th,
+.sales-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.sales-table th {
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  color: white;
+  font-weight: bold;
+}
+
+.sales-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.sales-table tr:hover {
+  background: #f1faff;
+  transition: background 0.3s;
+}
+
+/* Highlight high/low sales */
+.sales-table td:nth-child(2) {
+  font-weight: bold;
+}
+
+.sales-table td:nth-child(3) {
+  color: #2c3e50;
+  font-weight: 600;
 }

@@ -3,6 +3,8 @@ import "./App.css";
 
 const StockManagementSystem = () => {
   const [activeSection, setActiveSection] = useState("view");
+  const [customerName, setCustomerName] = useState("");
+  const [salesHistory, setSalesHistory] = useState([]);
   const [stock, setStock] = useState([
     {
       id: "STK001",
@@ -216,12 +218,26 @@ const StockManagementSystem = () => {
     if (createBill) {
       const bill = {
         id: Date.now(),
-        date: new Date().toLocaleString(),
+        date: new Date(),
         items: cart,
         total: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+        customerName: customerName,
       };
       setLastBill(bill);
       setShowBill(true);
+
+      // ✅ Save sale in history
+      setSalesHistory((prev) => [...prev, bill]);
+    } else {
+      // Even if no bill is generated, log the sale
+      const bill = {
+        id: Date.now(),
+        date: new Date(),
+        items: cart,
+        total: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+        customerName: customerName || "N/A",
+      };
+      setSalesHistory((prev) => [...prev, bill]);
     }
 
     setCart([]);
@@ -288,6 +304,13 @@ const StockManagementSystem = () => {
             onClick={() => setActiveSection("sell")}
           >
             Sell Stock
+          </button>
+
+          <button
+            className={activeSection === "sales" ? "nav-btn active" : "nav-btn"}
+            onClick={() => setActiveSection("sales")}
+          >
+            Sales Report
           </button>
         </nav>
       </header>
@@ -560,6 +583,110 @@ const StockManagementSystem = () => {
                 )}
               </div>
             </div>
+
+            {/* Sales Report Section */}
+            {activeSection === "sales" && (
+              <section className="sales-report-section">
+                <h2>Monthly Sales Report</h2>
+
+                {salesHistory.length === 0 ? (
+                  <p>No sales recorded yet.</p>
+                ) : (
+                  <table className="sales-table">
+                    <thead>
+                      <tr>
+                        <th>Month</th>
+                        <th>Total Sales (₹)</th>
+                        <th>Items Sold</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Object.entries(
+                        salesHistory.reduce((acc, sale) => {
+                          const month = new Date(sale.date).toLocaleString(
+                            "default",
+                            {
+                              month: "long",
+                              year: "numeric",
+                            }
+                          );
+
+                          if (!acc[month]) {
+                            acc[month] = { total: 0, items: 0 };
+                          }
+
+                          acc[month].total += sale.total;
+                          acc[month].items += sale.items.reduce(
+                            (sum, item) => sum + item.quantity,
+                            0
+                          );
+
+                          return acc;
+                        }, {})
+                      ).map(([month, data]) => (
+                        <tr key={month}>
+                          <td>{month}</td>
+                          <td>₹{data.total.toLocaleString()}</td>
+                          <td>{data.items}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </section>
+            )}
+          </section>
+        )}
+
+        {/* Sales Report Section */}
+        {activeSection === "sales" && (
+          <section className="sales-report-section">
+            <h2>Monthly Sales Report</h2>
+
+            {salesHistory.length === 0 ? (
+              <p>No sales recorded yet.</p>
+            ) : (
+              <table className="sales-table">
+                <thead>
+                  <tr>
+                    <th>Month</th>
+                    <th>Total Sales (₹)</th>
+                    <th>Items Sold</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(
+                    salesHistory.reduce((acc, sale) => {
+                      const month = new Date(sale.date).toLocaleString(
+                        "default",
+                        {
+                          month: "long",
+                          year: "numeric",
+                        }
+                      );
+
+                      if (!acc[month]) {
+                        acc[month] = { total: 0, items: 0 };
+                      }
+
+                      acc[month].total += sale.total;
+                      acc[month].items += sale.items.reduce(
+                        (sum, item) => sum + item.quantity,
+                        0
+                      );
+
+                      return acc;
+                    }, {})
+                  ).map(([month, data]) => (
+                    <tr key={month}>
+                      <td>{month}</td>
+                      <td>₹{data.total.toLocaleString()}</td>
+                      <td>{data.items}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </section>
         )}
       </main>
@@ -570,7 +697,13 @@ const StockManagementSystem = () => {
           <div className="modal">
             <div className="bill" ref={billRef}>
               <div className="bill-header">
-                <h2>INVOICE</h2>
+                <input
+                  className="customer-name"
+                  type="text"
+                  placeholder="Customer Name "
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                />
                 <p>Bill No: {lastBill.id}</p>
                 <p>Date: {lastBill.date}</p>
               </div>
