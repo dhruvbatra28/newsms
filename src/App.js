@@ -2,6 +2,15 @@ import React, { useState, useRef } from "react";
 import "./App.css";
 
 const StockManagementSystem = () => {
+  const [categories, setCategories] = useState([
+    "Electronics",
+    "Accessories",
+    "Clothing",
+    "Books",
+    "Other",
+  ]);
+  const [newCategory, setNewCategory] = useState("");
+
   const [activeSection, setActiveSection] = useState("view");
   const [customerName, setCustomerName] = useState("");
   const [salesHistory, setSalesHistory] = useState([]);
@@ -383,13 +392,43 @@ const StockManagementSystem = () => {
                   }
                 >
                   <option value="">Select category</option>
-                  <option value="Electronics">Electronics</option>
-                  <option value="Accessories">Accessories</option>
-                  <option value="Clothing">Clothing</option>
-                  <option value="Books">Books</option>
-                  <option value="Other">Other</option>
+                  {categories.map((cat, idx) => (
+                    <option key={idx} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                  <option value="__add__"> Add New Category</option>
                 </select>
+
+                {/*  This is the second option (input + save button) */}
+                {newItem.category === "__add__" && (
+                  <div className="form-group mt-2">
+                    <input
+                      type="text"
+                      placeholder="Enter new category"
+                      value={newCategory}
+                      onChange={(e) => setNewCategory(e.target.value)}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (newCategory.trim() !== "") {
+                          setCategories([...categories, newCategory.trim()]);
+                          setNewItem({
+                            ...newItem,
+                            category: newCategory.trim(),
+                          });
+                          setNewCategory("");
+                        }
+                      }}
+                      className="add-btn"
+                    >
+                      Save
+                    </button>
+                  </div>
+                )}
               </div>
+
               <button
                 type="button"
                 onClick={handleAddStock}

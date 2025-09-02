@@ -1,5 +1,4 @@
-/* Stock Management System Styles */
-* {
+Stock Management System Styles * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -701,6 +700,23 @@ body {
 }
 
 @media (max-width: 480px) {
+   {
+    input,
+    select,
+    button {
+      font-size: 1rem;
+      padding: 12px;
+    }
+
+    .new-category-container {
+      flex-direction: column;
+    }
+
+    .save-category-btn {
+      width: 100%;
+    }
+  }
+
   .stock-table-container {
     font-size: 0.8rem;
   }
@@ -877,6 +893,76 @@ button:focus {
   background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.13);
+}
+
+.new-category-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.new-category-container input {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.new-category-container input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+}
+
+.save-category-btn {
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.save-category-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+}
+.form-group {
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+button {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.stock-table tr:hover,
+.sales-table tr:hover {
+  background: #f4faff;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.05);
+  transform: scale(1.002);
+}
+.stock-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.stock-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
 }
 
 .sales-report-section h2 {
